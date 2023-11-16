@@ -1,14 +1,15 @@
-import express from "express";
-import app from "./app.js";
-import morgan from "morgan";
-import pingRouter from "./works/routes/pingRouter.js";
-import { connectToDatabase } from "./database/index.js";
+import chalk from "chalk";
+import { connectToDatabase } from "./database";
+import { startServer } from "./server/app";
 
-app.use(express.json());
-app.use(morgan("dev"));
+const port = process.env.PORT ?? 2808;
 
-app.use("/", pingRouter);
+if (!process.env.MONGODB_URL) {
+  console.log(chalk.red("Not connection with MongoDB"));
+  process.exit();
+}
 
-const mongoDatabase = process.env.MONGODB_URL;
+export const mongoDatabase = process.env.MONGODB_URL;
 
-await connectToDatabase(mongoDatabase!);
+await connectToDatabase(mongoDatabase);
+startServer(+port);
