@@ -1,4 +1,4 @@
-import type { Response, Request } from "express";
+import { type Response, type Request } from "express";
 import PingController from "./pingController";
 
 describe("Given a pingController", () => {
